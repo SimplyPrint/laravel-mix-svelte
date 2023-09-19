@@ -1,48 +1,47 @@
-let mix = require("laravel-mix");
-let path = require("path");
+let mix = require('laravel-mix');
+let path = require('path');
 
 class Svelte {
-	constructor() {
-		this.options = {};
-		this.extensions = [];
-		this.ruleExtensions = "";
-	}
+    constructor() {
+        this.options = {};
+        this.extensions = [];
+        this.ruleExtensions = '';
+    }
 
-	dependencies() {
-		this.requiresReload = true;
-		return ["svelte", "svelte-loader"];
-	}
+    dependencies() {
+        this.requiresReload = true;
+        return ['svelte', 'svelte-loader'];
+    }
 
-	register(options, extensions = []) {
-		this.options = { ...this.options, ...options };
-		this.extensions = [ '.mjs', '.js', '.svelte', ...extensions];
-		let extensionRules = extensions.map(function(item) {
-			return item.startsWith('.') ? item.substring(1) : item;
-		});
-		this.ruleExtensions = [ "html|svelte", ...extensionRules ].join('|');
-	}
+    register(options, extensions = []) {
+        this.options = { ...this.options, ...options };
+        this.extensions = ['.mjs', '.js', '.svelte', ...extensions];
+        let extensionRules = extensions.map(function (item) {
+            return item.startsWith('.') ? item.substring(1) : item;
+        });
+        this.ruleExtensions = ['html|svelte', ...extensionRules].join('|');
+    }
 
     webpackRules() {
         return [
             {
-                test: new RegExp('\.('+ this.ruleExtensions + ')$'),
+                test: new RegExp('.(' + this.ruleExtensions + ')$'),
                 use: [
                     { loader: 'babel-loader', options: Config.babel() },
-                    { loader: 'svelte-loader', options: this.options }
-                ]
+                    { loader: 'svelte-loader', options: this.options },
+                ],
             },
             {
                 test: /\.(mjs)$/,
-                use: { loader: 'babel-loader', options: Config.babel() }
+                use: { loader: 'babel-loader', options: Config.babel() },
             },
             {
-				// required to prevent errors from Svelte on Webpack 5+
-				test: /node_modules\/svelte\/.*\.mjs$/,
-				resolve: {
-					fullySpecified: false
-				}
-			}
-
+                // required to prevent errors from Svelte on Webpack 5+
+                test: /node_modules\/svelte\/.*\.mjs$/,
+                resolve: {
+                    fullySpecified: false,
+                },
+            },
         ];
     }
 
@@ -62,10 +61,10 @@ class Svelte {
         );
     }
 
-	boot() {
-		let svelte = require("svelte");
-		let loader = require("svelte-loader");
-	}
+    boot() {
+        let svelte = import('svelte');
+        let loader = import('svelte-loader');
+    }
 }
 
-mix.extend("svelte", new Svelte());
+mix.extend('svelte', new Svelte());
