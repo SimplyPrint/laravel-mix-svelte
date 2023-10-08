@@ -1,5 +1,5 @@
 {
-    "name": "@jorenrothman/laravel-mix-svelte",
+    "name": "@simplyprint/laravel-mix-svelte",
     "version": "0.5.1",
     "description": "A Laravel Mix extension for Svelte support.",
     "private": false,
